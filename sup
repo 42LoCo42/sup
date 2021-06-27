@@ -112,7 +112,10 @@ unpack() {
 get_type
 
 # run unpack until it fails (has finished)
-while unpack; do :; done
+safety=10
+while unpack; do
+	((safety = safety - 1)) || die "Reached decompression limit!"
+done
 
 # run checks on toplevel
 contents="$(get_contents)"
